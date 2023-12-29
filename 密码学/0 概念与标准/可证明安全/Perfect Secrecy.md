@@ -1,4 +1,4 @@
-### Perfect Secrecy
+## Perfect Secrecy
 
 - adversary knows the probability distribution of M
 - adversary knows the encryption scheme
@@ -7,6 +7,7 @@
 Perfect Secrecy is that **the [posteriori probability](../../../分析/概率与统计/贝叶斯公式.md) that some message $m\in M$ was sent, conditioned on the ciphertext that was observed, should be no different from the a [priori probability](../../../分析/概率与统计/贝叶斯公式.md#贝叶斯定理) that $m$ would be sent.**
 
 Formally, 
+
 #### Definition 2.3 [^2] 
 
 *An encryption scheme $(Gen, Enc, Dec)$ with message space $M$ is perfectly secret if:*
@@ -23,7 +24,7 @@ $Pr[\mathbf{C}=c\vert \mathbf{M}=m]=Pr[\mathbf{C}=c]$
 
 $Pr[\mathbf{Enc}_{K}(m)=c]\equiv Pr[\mathbf{C}=c\vert \mathbf{M}=m]$
 
-### One-Time Pad
+## One-Time Pad
 
 Fix an integer $\lambda> 0$. The message space $\mathcal{M}$, key space $\mathcal{K}$, and ciphertext space $\mathcal{C}$ are all equal to $\{0, 1\}^\lambda$
 
@@ -35,15 +36,21 @@ Fix an integer $\lambda> 0$. The message space $\mathcal{M}$, key space $\mathca
 
 #### Theorem 2.11 [^1]
 
-*If (Gen, Enc, Dec) is a  prefectly secret encryption schem with message spcae $\mathcal{M}$ and key spqce $\mathcal{K}$, then $\vert \mathcal{K}\vert\ge \vert \mathcal{M}\vert$.*
+*If (Gen, Enc, Dec) is a  prefectly secret encryption scheme with message spcae $\mathcal{M}$ and key space $\mathcal{K}$, then $\vert \mathcal{K}\vert\ge \vert \mathcal{M}\vert$.*
 
 **Proof:**
 
 Assume $\vert \mathcal{K}\vert<\vert \mathcal{M}\vert$, Let $\mathcal{M}(c)$ be the set of all possible messages that are decryptions of c. that is $$\mathcal{M}(c)\overset{def}{=}\{m\ \vert\ m=\mathbf{Dev}_{k}(c)\text{ for some }k\in\mathcal{K}\}$$ Clearly $\vert\mathcal{M}(c)\vert\ \leq\ \vert\mathcal{K}\vert$ (**Dec** is deterministic). If  $\vert \mathcal{K}\vert<\vert \mathcal{M}\vert$, there is some $m'\in\mathcal{M}$ such that $m'\not\in \mathcal{M}(c)$. But then:$$Pr[M=m'\vert C=c]=0\neq Pr[M= m']$$
 
-### Shannon's Theorem
+## Perfect Indistinguishable
 
+> see experiment in [eav-secure](Private-Key%20Encryption.md)
 
+![|450](../../../attach/Pasted%20image%2020231229112027.png)
+
+$\Pi$ is perfectly indistinguishable if fro all attackers $\mathcal{A}$, holds that: $$Pr[\mathsf{PrivK}^{eav}_{\mathcal{A},\Pi} =1]=\frac{1}{2}$$
+
+**Perfectly Indistinguishable $\equiv$ Perfect Secret**
 
 [^1]: P34
 [^2]: P27 in *Introduction to Modern Cryptography* by Jonathan Katz
