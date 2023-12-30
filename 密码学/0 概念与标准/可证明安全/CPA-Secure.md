@@ -37,6 +37,8 @@ Let $F$ be a pseudorandom function. Define a fixed-length, private-key encryptio
 
 ## Public Key Enc
 
+*If a public-key encryption scheme has indistinguishable encryptions in the presence of an eavesdropper, it is CPA-secure.*[^1]
+
 ### LR-oracle CPA experiment
 
 Formally, consider the following experiment defined for an adversary $A$ and a public-key encryption scheme $\Pi = (\text{Gen}, \text{Enc}, \text{Dec})$:
@@ -49,3 +51,5 @@ Formally, consider the following experiment defined for an adversary $A$ and a p
 5. $\text{PubK}^{\text{LR-cpa}}_{A,\Pi}(n) = 1$ if $b' = b$, and $0$ otherwise.
 
 A PubK Scheme $\Pi$ has **indistinguishable multiple encryptions** if for all PPT adversaries $\mathcal{A}$ there exists a $\mathsf{negl}$ such that: $$Pr[\mathsf{PubK}^{LR-cpa}_{\mathcal{A},\Pi}(n)=1]\leq \frac{1}{2}+\mathsf{negl}(n)$$
+
+[^1]: P406, Proposition 12.3, *Introduction to Modern Cryptography* by Jonathan Katz

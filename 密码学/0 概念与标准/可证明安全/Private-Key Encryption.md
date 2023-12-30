@@ -90,7 +90,7 @@ $$ \Pr[\text{Enc-Forge}_A(n) = 1] \leq \text{negl}(n). $$*
 
 ### Authenticate-then-encrypt
 
-Let $\Pi = (\text{Enc}, \text{Dec})$ be a private-key encryption scheme and let $\text{IM} = (\text{Mac}, \text{Vrfy})$ be a message authentication code, where in each case key generation is done by simply choosing a uniform n-bit key. Define a private-key encryption scheme $(\text{Gen}', \text{Enc}', \text{Dec}')$ as follows:
+Let $\Pi = (\text{Enc}, \text{Dec})$ be a private-key encryption scheme and let $\Pi_{M} = (\text{Mac}, \text{Vrfy})$ be a message authentication code, where in each case key generation is done by simply choosing a uniform n-bit key. Define a private-key encryption scheme $\Pi_{E}=(\text{Gen}', \text{Enc}', \text{Dec}')$ as follows:
 - $\text{Gen}'$: on input $1^n$, choose independent, uniform $k_E, k_M \in \{0, 1\}^n$ and output the key $(k_E, k_M)$.
 - $\text{Enc}'$: on input a key $(k_E, k_M)$ and a plaintext message $m$, compute $c \leftarrow \text{Enc}_{k_E}(m)$ and $t \leftarrow \text{Mac}_{k_M}(c)$. Output the ciphertext $(c, t)$.
 - $\text{Dec}'$: on input a key $(k_E, k_M)$ and a ciphertext $(c, t)$, first check if $\text{Vrfy}_{k_M}(c, t) \stackrel{?}{=} 1$. If yes, output $\text{Dec}_{k_E}(c)$; if no, output $\bot$.

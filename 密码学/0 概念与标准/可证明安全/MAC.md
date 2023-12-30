@@ -37,4 +37,4 @@ Let $F$ be a pseudorandom function, and fix a length funciton $\ell(n)>0$ (set $
 > see [CBC链接模式](../../1%20分组密码/链接模式.md) for details
 
 [^1]: P109-110, *Introduction to Modern Cryptography* by Jonathan Katz
-[^2]: P121, *Introduction to Modern Cryptography* by Jonathan Katz
+[^2]: P121
