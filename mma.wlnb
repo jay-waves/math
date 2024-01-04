@@ -1,0 +1,45 @@
+{
+ "cells": [
+  {
+   "kind": 2,
+   "value": "Integrate[Sin[x], {x, 0, Pi}]\r\n(*wolfram 代码示例*)",
+   "languageId": "wolfram",
+   "outputs": [
+    {
+     "items": [
+      {
+       "data": "<div class=\"wexpr\"><w>2</w></div>",
+       "mime": "x-application/wolfram-language-html"
+      },
+      {
+       "data": "2",
+       "mime": "text/plain"
+      }
+     ],
+     "id": "737c0e50-c20c-410f-8e22-42ce9f826c86",
+     "metadata": {
+      "cellLabel": "Out[2]= ",
+      "isBoxData": false
+     }
+    }
+   ],
+   "metadata": {},
+   "executionSummary": {
+    "timing": {
+     "startTime": 1661593663558,
+     "endTime": 1661593663716
+    },
+    "executionOrder": 2,
+    "success": true
+   }
+  },
+  {
+   "kind": 1,
+   "value": "### NOTICE\r\n此处利用wolfram support/wolfram notebook两插件, 将wolfram engine作为后端, vscode作为前端来使用Mathematica.\r\n\r\n文件后缀名为 **.wlnb**, 此处是将obsidian笔记库保存为了一个vscode工作区, 在ProjectManager插件中可以切换项目, 仅此工作区两wolfram插件启用.\r\n<br>\r\n<br>\r\n\r\n<center>预祝数学学习愉快!<center\\>",
+   "languageId": "markdown",
+   "outputs": [],
+   "metadata": {},
+   "executionSummary": {}
+  }
+ ]
+}
