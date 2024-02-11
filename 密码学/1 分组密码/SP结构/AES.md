@@ -1,4 +1,4 @@
-[AES](../../../docs/AES-standard.pdf) (Advanced Encryption Standard) 是NIST于2001年选定的, 用于替代DES的算法.
+[AES](../../../paper/crypto/AES-standard.pdf) (Advanced Encryption Standard) 是NIST于2001年选定的, 用于替代DES的算法.
 
 AES以 **Rijndael 迭代型密码算法**为基础, 但分组长度固定为128`bits`, 仅允许密钥长度可变(128`bits`, 192`bits`, 256`bits`).
 
@@ -177,7 +177,7 @@ Rijndal( State, Key ){
 
 ### 3 密钥扩展
 
-`Nk=4`时密钥扩展步骤如下, `Nk`增长时, 会有些许变化, 详见[AES标准](../../../docs/AES-standard.pdf).
+`Nk=4`时密钥扩展步骤如下, `Nk`增长时, 会有些许变化, 详见[AES标准](../../../paper/crypto/AES-standard.pdf).
 
 ![|550](../../../attach/Pasted%20image%2020230608165056.png)
 

@@ -7,7 +7,7 @@ ZKRP: zero knowledge range proof
 - 基于 IOP, 本文技术:
 
 
-[range proof 230207](../../../docs/Range_proof_230207.pdf) obtains an efficient batch IOP-based zkRP supporting arbitrary ranges for arbitrary bases with logarithmic communication complexity and practically small proof size.
+[range proof 230207](../../../paper/crypto/Range_proof_230207.pdf) obtains an efficient batch IOP-based zkRP supporting arbitrary ranges for arbitrary bases with logarithmic communication complexity and practically small proof size.
 
 本文贡献: 实现了基于 IOP 的零知识范围证明技术, 并且是后量子安全的.
 
