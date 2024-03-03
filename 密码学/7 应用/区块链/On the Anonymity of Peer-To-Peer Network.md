@@ -1,2 +1,0 @@
-- hop-to-hop schemes: Dandelion, Dandelion++
-- source-routed schemes: Lightning Network

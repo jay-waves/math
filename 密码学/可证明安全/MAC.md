@@ -34,7 +34,7 @@ Let $F$ be a pseudorandom function, and fix a length funciton $\ell(n)>0$ (set $
 	2. Set $t_{0}:= 0^{n}$. Then, for $i=1$ to $\ell$, set $t_{i}:=F_{k}(t_{i-1}\oplus m_{i})$.
 - $\mathsf{Vrfy}$: on input a key $k\in\{0,1\}^{n}$, a message m, and a tag t, do: If $m$ is not of length $\ell(n)\cdot n$ then output 0. Otherwise, output 1 iff $t\stackrel{?}{=}\mathsf{Mac}_{k}(m)$
 
-> see [CBC链接模式](../../1%20分组密码/链接模式.md) for details
+> see [CBC链接模式](../../分组密码/链接模式.md) for details
 
 [^1]: P109-110, *Introduction to Modern Cryptography* by Jonathan Katz
 [^2]: P121
