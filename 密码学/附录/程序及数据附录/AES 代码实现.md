@@ -1,100 +1,20 @@
-# 0 心得
-
-- 严重怀疑测评机没有处理好 windows平台换行符`\r\n`与linux换行符不兼容 的问题, 输入函数必须加上strip()去掉空白字符, 否则报错RE
-
-- 减少了使用复杂的列表推导式, 尤其是二维的推导式. 这东西看上去简洁, 实则会大幅增加 写和阅读代码 的难度. 写一个双重循环真的不费事, 看起来不geek罢了.
-
-- 解密部分, 采取同结构解密方式, 并不会提高代码复用的程度, 相反增加了数据处理的难度. 对于python这种弱类型语言, 这种数据处理无疑比设计代码结构更加折磨人.
 
 
-# 1 说明文档
+# 说明文档
 
-**密码学第四次实验 AES及其相关实现 2023-3**
+代码包含以下几个模块:
 
-AES-128加密算法的实现及其组成部分。代码包含以下几个模块：
+1. 密钥生成 (key_expansion.py)
+2. 加密和解密操作 (aes.py)
+3. 有限域运算 (gf.py)
+4. 常量和置换盒 (constant.py)
 
-1. 密钥生成（key_expansion.py）
-2. 加密和解密操作（aes.py）
-3. 有限域运算（gf.py）
-4. 常量和置换盒（constant.py）
-
-## 密钥生成
-
-文件名：key_expansion.py
-
-密钥生成模块负责将初始密钥扩展为轮密钥。提供了以下几个功能函数：
-
-- `sub_word(w)`
-- `rot_word(w)`
-- `xor_word(w1, w2)`
-- `key_expansion(in_key)`
-
-`key_expansion` 函数接收一个初始密钥（4 * Nk字节），并生成Nb * (Nr + 1)字节的轮密钥。这些轮密钥将用于加密和解密操作。
-
-## 加密和解密操作
-
-文件名：aes.py
-
-加密和解密操作模块提供了AES加密算法的核心功能。包括以下几个功能函数：
-
-- `add_round_key(state, key)`
-- `sub_bytes(state, op=1)`
-- `shift_rows(state, op=1)`
-- `mix_columns(state, op=1)`
-- `dec(in_block, rkey)`
-- `enc(in_block, rkey)`
-
-### 加密
-
-`enc` 函数负责将输入数据块（4 * Nb字节）加密。它接收输入数据块和轮密钥（由`key_expansion`生成），并输出加密后的数据块。
-
-加密过程包括以下几个步骤：
-
-1. 将输入数据块转换为状态矩阵
-2. 执行Nr次轮操作，包括：
-   - 字节代换（`sub_bytes`）
-   - 行移位（`shift_rows`）
-   - 列混淆（`mix_columns`，除最后一轮外）
-   - 轮密钥加（`add_round_key`）
-3. 将加密后的状态矩阵转换回输出数据块
-
-### 解密
-
-`dec` 函数负责将加密后的数据块（4 * Nb字节）解密。它接收加密后的数据块和轮密钥（由`key_expansion`生成），并输出解密后的数据块。
-
-(函数op代表是该函数的逆操作)
-
-解密过程与加密过程相反，包括以下几个步骤：
-
-1. 将加密后的数据块转换为状态矩阵
-2. 执行Nr次轮操作，包括：
-   - 逆字节代换（`sub_bytes`，参数op为0）
-   - 逆行移位（`shift_rows`，参数op为0）
-   - 逆列混淆（`mix_columns`，参数op为0，除最后一轮外）
-   - 轮密钥加（`add_round_key`）
-3. 将解密后的状态矩阵转换回输出
-
-
-
-# 2 详细代码
+# 详细代码
 
 - gf.py 实现有限域上的运算
 
-AES中对有系数多项式和{0,1}系数多项式有区分, {0,1}系数多项式是在 $GF(2^8)$ 上进行运算, 用来生成F的不可约多项式为 $x^8+x^4+x^3+x+1$. 而有系数多项式进行乘法时, 系数(一字节长度)运算视作 $GF(2^8)$ 上的多项式运算 (每bit代表一个系数), 而多项式次数通过 $x^i\ (mod\ x^4+1)=x^{i\ mod\ 4}$ 来压缩.
-
-下面是有系数多项式乘法的演示: 
-
-$c\left(x\right)\\=a(x)*b(x)\\=c_6x^6+c_5x^5+c_4x^4+c_3x^3+c_2x^2+c_1x+c_0$
-
-
-$\begin{cases}c_0=a_0\ast b_0\\ c_6=a_3\ast b_3\\ c_1=a_1\ast b_0\oplus a_0\ast b_1\\c_5=a_3\ast b_2\oplus a_2\ast b_3\\c_2=a_2\ast b_0\oplus a_1\ast b_1\oplus a_0\ast b_2\\ c_4=a_3\ast b_1\oplus a_2\ast b_2\oplus a_1\ast b_3\\ c_3=a_3\ast b_0\oplus a_2\ast b_1\oplus a_1\ast b_2\oplus a_0\ast b_3\end{cases}$
-
-因为 $x^{4}\equiv -1\equiv 1\pmod{x^{4}+1}$, 所以: 
-
-$d\left(x\right)\\=c\left(x\right)\pmod{x^4+1}\\=c_3x^3+\left(c_6\oplus c_2\right)x^2+\left(c_5\oplus c_1\right)x+\left(c_4\oplus c_0\right)$
-
-
 ```python
+'''arithmetic on GF(2^8)'''
 irred_poly = 0b100011011
 
 def add_or_sub(x_bin, y_bin):
@@ -122,9 +42,8 @@ def mod_div(x_bin, y_bin):
         q = q ^ (1 << (r_deg-y_deg))
         r = r ^ (y_bin << (r_deg-y_deg))
         if y_bin and not r:
-            #此情况，由于y=1的位数已经最低，所以r位数不可能更低了. r=0时退出即可
             break
-        r_deg = len(bin(r)) -3 #自动去掉前缀0，即自动缩减到当前最高位
+        r_deg = len(bin(r)) -3 # 去掉前缀0
     return (q, r)
 
 def fast_power(num, exp):
@@ -139,7 +58,7 @@ def fast_power(num, exp):
     _, r = mod_div(ans, irred_poly)
     return r
 
-def exGCD(x, y):
+def gcd(x, y):
     '''return s, t, gcd, such that s*x + t*y = gcd'''
     d, s, t = y, 0, 1
     d1, s1, t1 = x, 1, 0
@@ -148,20 +67,19 @@ def exGCD(x, y):
         d1, d = d, r
         s1, s = s, s1 ^ mul(q, s)
         t1, t = t, t1 ^ mul(q, t)
-
     return s1, t1, d1
 
 def find_inverse(a, m):
-    x, _, _ = exGCD(a, m)  # 并没有检查两者是否互素
+    x, _, _ = gcd(a, m)  # not check coprime
     return x
 
-def mul_matrix(A, B):
-    '''矩阵乘法, A*B'''
+def mmul(A, B):
+    '''multiply two matrices, A*B'''
     r = len(A)
     c = len(B[0])
     assert len(A[0]) == len(B), 'invalid matrix form'
 
-    C = [[0 for j in range(c)] for i in range(r)] # 初始化C的内存
+    C = [[0 for j in range(c)] for i in range(r)] # alloc
     for i in range(r):
         for j in range(c):
             for k in range(len(B)):
@@ -169,7 +87,7 @@ def mul_matrix(A, B):
     return C
 ```
 
-- cipher.py 加解密主体
+- aes.py 加解密主体
 
 ```python
 import gf
@@ -182,35 +100,35 @@ def add_round_key(state, key):
         for byte in range(4):
             state[w][byte] ^= key[w][byte]
 
-def sub_bytes(state, op=1):
+def sub_bytes(state, sbox=Con.s_box):
     '''substitute bytes'''
-    if op :
-        sbox = Con.s_box
-    else:
-        sbox = Con.inv_s_box
-    for w in range(Con.Nb):
-        for byte in range(4):
-            state[w][byte] = sbox[state[w][byte] >> 4][state[w][byte] & 0xF]
+	for w in range(Con.Nb):
+		for byte in range(4):
+			idxx = state[w][byte]>>4
+			idxy=state[w][byte]&0xF
+			state[w][byte] = sbox[idxx][idxy]
 
-def shift_rows(state, op=1):
+def shift_rows(state):
     '''shift rows'''
-    if op :
-        for r in range(1, 4):  # row, 但state是按列存储的
-            for _ in range(r):  # 循环移位次数
-                for i in range(3):  # 循环移位
-                    state[i][r], state[i+1][r] = state[i+1][r], state[i][r]
-    else:
-        for r in range(1, 4):  # row, 但state是按列存储的
-            for _ in range(r):  # 循环移位次数
-                for i in range(3, 0, -1):  # 循环移位
-                    state[i][r], state[i-1][r] = state[i-1][r], state[i][r]
+    for r in range(1, 4):        # go through row, not word of state
+        for _ in range(r):       # cyclic shift num of bits 
+             for i in range(3):  # just cyclic shift
+                state[i][r], state[i+1][r] = state[i+1][r], state[i][r]
+
+def inv_shift_rows(state):
+	for r in range(1, 4):
+		for _ in range(r):
+			for i in range(3, 0, -1):
+				state[i][r], state[i-1][r] = state[i-1][r], state[i][r]
 
 def mix_columns(state, op=1):
     '''mix columns'''
-    if op :
-        state[:] = gf.mul_matrix(state, Con.mix_matrix)  # 这里使用切片来访问原列表地址, 否则不会改变原地址内容, 而是交换指针
-    else:
-        state[:] = gf.mul_matrix(state, Con.inv_mix_matrix)  
+    state[:] = gf.mmul(state, Con.mix_matrix)  
+    # use slice to visit original address
+
+def inv_mix_columns(state):
+	'''mix columns'''
+	state[:] = gf.mmul(state, Con.inv_mix_matrix) 
 
 def dec(in_block, rkey):
     '''
@@ -221,7 +139,7 @@ def dec(in_block, rkey):
     Output:
         out_block: list of 4*Nb bytes
     '''
-    # state: w0, w1, w2, w3
+    # 4*Nb bytes -> state: w0, w1, w2, w3
     state = [[0] * 4 for _ in range(Con.Nb)]
     for w in range(Con.Nb):
         for byte in range(4):
@@ -229,21 +147,21 @@ def dec(in_block, rkey):
 
     add_round_key(state, rkey[Con.Nr * Con.Nb:])
     for round in range(Con.Nr-1, 0, -1):
-        sub_bytes(state, 0)
-        shift_rows(state, 0)
+        sub_bytes(state, sbox=Con.inv_s_box)
+        inv_shift_rows(state)
         add_round_key(state, rkey[round*Con.Nb: (round+1)*Con.Nb])
-        mix_columns(state, 0)
+        inv_mix_columns(state)
     # last round
-    sub_bytes(state, 0)
-    shift_rows(state, 0)
+    sub_bytes(state, sbox=Con.inv_s_box)
+    inv_shift_rows(state)
     add_round_key(state, rkey[:Con.Nb])
 
+	# state -> 4*Nb bytes
     out_block = [0] * 4 * Con.Nb
     for w in range(Con.Nb):
         for b in range(4):
             out_block[w*4+b] = state[w][b]
     return out_block
-
 
 def enc(in_block, rkey):
     '''
@@ -281,19 +199,24 @@ def enc(in_block, rkey):
 - key.py 密钥扩展
 
 ```python
-import constant as c
+'''might be more natural to use OO of key word'''
+from constant import s_box, Rcon, Nk, Nr, Nb
 
 def sub_word(w):
-    sbox = c.s_box
-    for i, v in enumerate(w):
-        w[i] = sbox[v>>4][v&0xF]
-    return w
+	return [s_box[b>>4][b&0xF] for b in w]
 
 def rot_word(w):
+	'''cyclic shift'''
     return w[1:] + w[:1]
 
 def xor_word(w1, w2):
     return [b1^b2 for b1, b2 in zip(w1, w2)]
+
+def g(w, rcon):
+	w = rot_word(w)
+	w = subword(w)
+	w = xor_word(w, rcon)
+	return w
 
 def key_expansion(in_key):
     '''
@@ -303,16 +226,19 @@ def key_expansion(in_key):
     Output:
         round_key: Nb*(Nr+1) bytes for 4 bytes as a w, split as word(4 bytes)
     '''
-    words = [in_key[4*i:4*(i+1)] for i in range(c.Nk)]
+    # bytes -> key state: {kw1, kw2, kw3, kw4}
+    words = [in_key[4*i:4*(i+1)] for i in range(Nk)]
 
-    for i in range(c.Nk, c.Nb * (c.Nr+1)):
-        tmp = words[i-1] #! 复制了地址，可变类型不复制对象，后面被坑了
-        if (i % c.Nk) == 0:
-            tmp = xor_word(sub_word(rot_word(tmp[:])), c.Rcon[i//c.Nk-1])
-        elif (c.Nk > 6) and (i % c.Nk == 4): #为了向后兼容更高位加密
-            tmp = sub_word(tmp[:])
-        words.append(xor_word(words[i-c.Nk], tmp))
-
+    for i in range(Nk, Nb * (Nr+1)): 
+	    # byte by byte
+        w = words[i-1][:]
+        if (i % Nk) == 0:
+	        w = g(w, Rcon[i//Nk-1])
+        elif (Nk > 6) and (i % Nk == 4): 
+	        # backword compatibility
+            w = sub_word(w)
+        words.append(xor_word(w, words[i-Nk]  ))
+        
     return words
 ```
 
@@ -382,7 +308,3 @@ inv_s_box = [
 [ 0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d ],
 ]
 ```
-
-
-
-

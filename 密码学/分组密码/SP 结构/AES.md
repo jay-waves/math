@@ -1,6 +1,6 @@
-[AES](../../../paper/crypto/AES-standard.pdf) (Advanced Encryption Standard) 是NIST于2001年选定的, 用于替代DES的算法.
+[AES](../../../paper/crypto/AES-standard.pdf) (Advanced Encryption Standard) 是 NIST 于2001年选定的, 用于替代 DES 的算法.
 
-AES以 **Rijndael 迭代型密码算法**为基础, 但分组长度固定为128`bits`, 仅允许密钥长度可变(128`bits`, 192`bits`, 256`bits`).
+AES 以 **Rijndael 迭代型密码算法**为基础, 但**分组长度固定为 `128bits`**, 仅允许密钥长度可变 (`128bits`, `192bits`, `256bits`). 和 DES 以比特为处理单位不同, AES 处理单位是字节, 用 $\mathbb{GF}(2^{8})$ 上元素表示.
 
 ![|250](../../../attach/Pasted%20image%2020230607164020.png)
 
@@ -21,7 +21,7 @@ state={
 **常数**:  
 `Nb`: 分组字长度, AES中固定为4, Rijndael中可变.  
 `Nr`: 轮数, 建议10以上. 密钥长度 4/6/8 对应轮数 10/12/14
-`Nk`: 密钥字长度, 可为4/6/8. 随着密钥长度变化, 密钥扩展算法略有不同.
+`Nk`: 密钥字长度, 可为 4/6/8. 随着密钥长度变化, 密钥扩展算法略有不同.
 
 ### 1 单轮结构
 AES是迭代型结构, 每轮结构如下:
@@ -36,7 +36,7 @@ Round{
 
 #### 1.1 字节替换
 
-见[AES-SBox](AES-SBox.md)
+见 [AES SBox](AES%20SBox.md)
 
 #### 1.2 行移位 `ShiftRows`
 线性变换
@@ -91,9 +91,29 @@ $$
 \end{bmatrix}
 $$
 
-另一种理解方式: 将状态列视为 $GF(2^{8})$上的多项式 $a(x)$ (和同样定义在 $GF(2^{8})$上的系数区分), 则结果 $b(x)=a(x)\cdot c(x)\pmod{x^{4}+1}$, $c(x)=03x^{3}+01x^{2}+01x+02$.
+另一种理解方式: 将状态列视为 $\mathbb{GF}(\mathbb{GF}(2^{8})^{4})=\mathbb{GF}(2^{8})[x]$ 上的多项式 $a(x)$, 则结果 $b(x)=a(x)\cdot c(x)\pmod{x^{4}+1}$, $c(x)=03x^{3}+01x^{2}+01x+02$.
 
-注意, 列混淆是SP网络中的**代换**操作, 因为不是纯调换顺序.
+<br>
+
+AES 在 $GF(2^{8})[x]$ 上处理数据, 用来生成系数域 (字节) $GF(2^{8})$ 的不可约多项式为 $x^{8}+x^{4}+x^{3}+1$.  用来生成 用于列混淆的 多项式域 $GF(2^{4})$ 的不可约多项式为 $x^{4}+1$.
+
+下面是有系数多项式乘法的演示: 
+
+$c\left(x\right)\\=a(x)*b(x)\\=c_6x^6+c_5x^5+c_4x^4+c_3x^3+c_2x^2+c_1x+c_0$
+
+$\begin{cases}c_0=a_0\ast b_0\\ c_6=a_3\ast b_3\\ c_1=a_1\ast b_0\oplus a_0\ast b_1\\c_5=a_3\ast b_2\oplus a_2\ast b_3\\c_2=a_2\ast b_0\oplus a_1\ast b_1\oplus a_0\ast b_2\\ c_4=a_3\ast b_1\oplus a_2\ast b_2\oplus a_1\ast b_3\\ c_3=a_3\ast b_0\oplus a_2\ast b_1\oplus a_1\ast b_2\oplus a_0\ast b_3\end{cases}$
+
+因为 $x^{4}\equiv -1\equiv 1\pmod{x^{4}+1}$, 所以: 
+
+$d\left(x\right)\\=c\left(x\right)\pmod{x^4+1}\\=c_3x^3+\left(c_6\oplus c_2\right)x^2+\left(c_5\oplus c_1\right)x+\left(c_4\oplus c_0\right)$
+
+即, 对多项式: $p_1=a_0+a_1x+a_2x^2+a_3x^3$ 和 $p_2=b_0+b_1x+b_2x^2+b_3x^3$, 
+若 $p_1\otimes p_2=c_0+c_1x+c_2x^2+c_3x^3$, 则有: $$\begin{bmatrix}
+c_{0}\\c_{1}\\c_{2}\\c_{3}\end{bmatrix}=\begin{bmatrix}
+a_{0}&a_{3}&a_{2}&a_{1}\\a_{1}&a_{0} & a_{3} & a_{2}\\a_{2} & a_{2} & a_{0} & a_{3}\\a_{3} & a_{2} & a_{1} & a_{0}\end{bmatrix}\cdot \begin{bmatrix}
+b_{0}\\ b_{1}\\ b_{2} \\b_{3}\end{bmatrix}$$
+
+> 注意, 列混淆是SP网络中的**代换 (S)** 操作. 但是作用是**扩散**
 
 #### 1.4 轮密钥加 `AddRoundKey`
 
@@ -142,48 +162,47 @@ Rijndal( State, Key ){
 解密结构:
 ```
 Rijndal( State, Key ){
-	RoundKey <- KeyExpansion( Key );
-	AddRoundKey( State, RoundKey[r] );
-	InvShiftRow( State );
-	InvSubBytes( State );
+	RoundKey <- KeyExpansion( Key )
+	AddRoundKey( State, RoundKey[r] )
+	InvShiftRow( State )
+	InvSubBytes( State )
 	For i from 1 to Nr-1:
-		AddRoundKey( State, RoundKey[i] );
-		InvMixColumn( State );
-		InvShiftRow( State );
-		InvSubBytes( State );
+		AddRoundKey( State, RoundKey[r-i] )
+		InvMixColumn( State )
+		InvShiftRow( State )
+		InvSubBytes( State )
 	EndFor
-	AddRoundKey( State, RoundKey[0] );
+	AddRoundKey( State, RoundKey[0] )
 }
 ```
 
-等效解密结构:  
-==为了让加解密结构更加类似, AES最后一轮没有 `MixColumns`.== 原理一见[代换置换网络](代换置换网络.md), 即`MixColumn`和`AddRoundKey`可在某些条件下互换位置; 二需理解 `SubBytes` 和 `ShiftRows` 结构可互换位置, 因为 `ShiftRows` 不改动字节内部.
+等效解密结构: **为了让加解密结构更加类似, AES 最后一轮没有 `MixColumns`.** 原理一见[代换置换网络](代换置换网络.md), 即 `MixColumn` 和 `AddRoundKey` 可在线性变换条件下互换位置; 二需理解 `SubBytes` 和 `ShiftRows` 结构可互换位置, 因为 `ShiftRows` 不改动字节内部值.
 
 ```
 Rijndal( State, Key ){
-	RoundKey <- KeyExpansion( Key );
-	AddPermutateRoundKey( State, RoundKey[r] );
+	RoundKey <- KeyExpansion( Key )
+	AddRoundKey( State, InvMixColumn(RouKey[r]))
 	For i from 1 to Nr-1:
-		InvSubBytes( State );
-		InvShiftRow( State );
-		InvMixColumn( State );
-		AddPermutateRoundKey( State, RoundKey[i] );
+		InvSubBytes( State )
+		InvShiftRow( State )
+		InvMixColumn( State )
+		AddPermutateRoundKey( State, RoundKey[r-i] )
 	EndFor
-	InvSubBytes( State );
-	InvShiftRow( State );
-	AddPermutateRoundKey( State, RoundKey[0] );
+	InvSubBytes( State )
+	InvShiftRow( State )
+	AddPermutateRoundKey( State, RoundKey[0] )
 }
 ```
 
 ### 3 密钥扩展
 
-`Nk=4`时密钥扩展步骤如下, `Nk`增长时, 会有些许变化, 详见[AES标准](../../../paper/crypto/AES-standard.pdf).
+`Nk=4`时密钥扩展步骤如下, `Nk`增长时, 会有些许变化, 详见[AES标准](../../../paper/crypto/AES-standard.pdf). 每轮密钥长度皆为 $N_{b}$, 那么共需要 $N_{b}(N_{r}+1)$ 长度的密钥.
 
 ![|550](../../../attach/Pasted%20image%2020230608165056.png)
 
-变换 $g$详情如:
+变换 $g$ 详情如:
 1. 循环左移一字节
-2. 用[Sbox](AES-SBox.md)进行字节替代
+2. 用 [Sbox](AES%20SBox.md) 进行字节替代
 3. 与轮常数 `Rcon[i]` 异或.   
 其中, $Rcon[i]=(RC[i], 0x00, 0x00, 0x00)$, $RC[i]=2^{i-1}$.
 

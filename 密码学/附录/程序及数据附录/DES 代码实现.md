@@ -1,18 +1,17 @@
-status: 没写完，只整理了代码，代码没审查没优化
-# 心得
 我这拿整型实现真是贱呐，给自己没事找事
 
-# 实现
-'''
-P: permutate
-C: compress
-S: substitute
-LK: left_key_28b
-RK: right_key_28b
-rK: round_key_48b'''
+# Python 实现
+
+- P: permutate
+- C: compress
+- S: substitute
+- LK: left_key_28b
+- RK: right_key_28b
+- rK: round_key_48b
 
 ```python
 import table
+from table import permutate
 import key
 
 def F_Sbox(data_48b):
@@ -35,7 +34,7 @@ def F_IP(data_64b):
     input: 初始数据 64b
     return: 经IP置换后的数据 64b
     '''
-    return table.permutate(table.IP, data_64b, 64)
+    return permutate(table.IP, data_64b, 64)
 
 def F_IP_inv(data_64b):
     '''
@@ -43,7 +42,7 @@ def F_IP_inv(data_64b):
     input: 轮加密后数据 64b
     return: 经IP逆置换后的数据 64b
     '''
-    return table.permutate(table.IP_inv, data_64b, 64)
+    return permutate(table.IP_inv, data_64b, 64)
 
 def F_E(R_32b):
     '''
@@ -51,7 +50,7 @@ def F_E(R_32b):
     input: 上轮加密后R 32b
     return: 经E扩展置换后的数据 48b
     '''
-    return table.permutate(table.extension, R_32b, 32)
+    return permutate(table.extension, R_32b, 32)
     
 def F_P(data_32b):
     '''
@@ -59,7 +58,7 @@ def F_P(data_32b):
     input: S盒代换压缩后的数据 32b
     return: 经Pbox置换后的数据 32b
     '''
-    return table.permutate(table.Pbox, data_32b, 32)
+    return permutate(table.Pbox, data_32b, 32)
 
 def F_round(cnt, rk, L_32b, R_32b):
     '''
@@ -79,8 +78,7 @@ def F_round(cnt, rk, L_32b, R_32b):
     data_32b = data_32b ^ L_32b
     return R_32b, data_32b
 
-ENC = 1; DEC = 0
-def DES(k, data, op)->int:
+def DES(k, data, is_enc=True)->int:
     '''
     input:
         k: 初始密钥
@@ -98,7 +96,7 @@ def DES(k, data, op)->int:
     R = data0 & 0xFFFF_FFFF
     
 	for cnt in range(16):
-		i = cnt if op else (15-cnt)
+		i = cnt if is_enc else (15-cnt)
 		L, R = F_round(cnt, K[i], L, R)
     
     data_64b = (R<<32) | L
@@ -109,6 +107,7 @@ def DES(k, data, op)->int:
 密钥扩展模块 key.py
 ```python
 import table
+from table import permutate
 
 def PC1(key_64b):
     '''
@@ -116,7 +115,7 @@ def PC1(key_64b):
     input: 初始密钥 key_64b 
     return: 置换压缩后-初始轮密钥 rkey0_56b
     '''
-    return table.permutate(table.key_PC_1, key_64b, 64)
+    return permutate(table.key_PC_1, key_64b, 64)
 
 def PC2(LK_28b, RK_28b):
     '''
@@ -124,7 +123,7 @@ def PC2(LK_28b, RK_28b):
     input: 左移位后的左右轮密钥 2*28b
     return: 本轮Feistel子密钥 rKi_48b
     '''
-    return table.permutate(table.key_PC_2, (LK_28b<<28) + RK_28b, 56)
+    return permutate(table.key_PC_2, (LK_28b<<28) + RK_28b, 56)
 
 def round(LK_28b, RK_28b, cnt):
     '''
@@ -138,18 +137,18 @@ def round(LK_28b, RK_28b, cnt):
     # 采用int类型存储数据，不能使用截取
     return LK_28b, RK_28b, PC2(LK_28b, RK_28b)
 
-def rk_gen(k0):
+def rk_gen(K):
     '''
     16轮密钥生成
     return 16轮密钥数组
     '''
-    k0 = PC1(k0)
-    LK = k0 >> 28
-    RK = k0 & 0xFFF_FFFF
-    K = [0 for _ in range(16)]
+    K = PC1(K)
+    LK = K >> 28
+    RK = K & 0xFFF_FFFF
+    rks = [0 for _ in range(16)]
     for i in range(16):
-        LK, RK, K[i] = round(LK, RK, i)
-    return K
+        LK, RK, rks[i] = round(LK, RK, i)
+    return rks
 ```
 
 常数以及替换盒模块 table.py
@@ -195,7 +194,7 @@ extension=[
     16, 17, 18, 19, 20, 21, 20, 21, 22, 23, 24, 25,
     24, 25, 26, 27, 28, 29, 28, 29, 30, 31, 32,  1 ] #48
 key_left_shift_schedule = [
-     1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1] #17, 这个0是不是该去掉？
+     1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1] #17, 
 Pbox = [
     16,  7, 20, 21, 29, 12, 28, 17,  1, 15, 23, 26,  5, 18, 31, 10,
     2,  8, 24, 14, 32, 27,  3,  9, 19, 13, 30,  6, 22, 11,  4, 25]

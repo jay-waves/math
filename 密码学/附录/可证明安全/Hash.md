@@ -24,7 +24,7 @@ If $H^s$ is defined only for inputs $x$ of length $\ell'(n) > \ell(n)$, then we 
 
 Any hash function that is collision resistant is also second-preimage resistant. It is also true that if a hash function is second-preimage resistant then it is preimage resistant.
 
-> see [消息摘要](../消息摘要/消息摘要.md) for details
+> see [消息摘要](../../消息摘要/消息摘要.md) for details
 
 ## ROM
 

@@ -75,7 +75,7 @@ ElGamal is not secure against CCA (is malleable)
 
 ## RSA-Based PKE
 
-> see [RSA](../公钥密码/RSA/RSA.md)
+> see [RSA](../../公钥密码/RSA/RSA.md)
 
 [^definition12.1]: P404, *Introduction to Modern Cryptography* by Jonathan Katz
 [^2]: P408
