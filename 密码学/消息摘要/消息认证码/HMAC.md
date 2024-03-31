@@ -2,18 +2,18 @@
 
 #KeyPoints
 
-HMAC是一种基于杂凑算法的MAC实现方式. 是 Keyed-hashing for MAC 的简写. 其设计目标为: 直接调用现有散列函数, 且镶嵌的散列函数可不断更新替换; 保留散列函数原始性能, 并以简单方式处理和使用密钥; 在对镶嵌散列函数合理假设的基础上, 易于分析 HMAC 用于认证时的密码强度. 基于不同杂凑算法, 有`HMAC-MD5`, `HMAC-SHA1`, `HMAC-SHA256`
+HMAC是一种基于杂凑算法的MAC实现方式. 是 Keyed-hashing for MAC 的简写. 其设计目标为: 直接调用现有散列函数, 且镶嵌的散列函数可不断更新替换; 保留散列函数原始性能, 并以简单方式处理和使用密钥; 在对镶嵌散列函数合理假设的基础上, 易于分析 HMAC 用于认证时的密码强度. 基于不同杂凑算法, 有 `HMAC-MD5`, `HMAC-SHA1`, `HMAC-SHA256`
 
 $HMAC=Hash((K^{+}\oplus opad)\ \Vert\ Hash((K^{+}\oplus ipad)\ \Vert\ Msg))$
 
 其中 
-- Hash: 杂凑算法, 比如（MD5, SHA-1, SHA-256） 
-- B: 块字节的长度, 取B=64。 
-- L: 杂凑算法结果字节长度 (L=16 for MD5, L=20 for SHA-1)。 
+- Hash: 杂凑算法, 比如 (MD5, SHA-1, SHA-256)
+- B: 块字节的长度, 取 B=64
+- L: 杂凑算法结果字节长度 (L=16 for MD5, L=20 for SHA-1)
 - K：共享密钥. 若`len(k)>B`, 则先执行`Hash(k)`; 若`len(k)<B`, 则填充`0x00`至B长, 变为$K^{+}$.
-- Msg： 要认证的消息 
-- opad：外部填充常量，是 0x5C 重复B次。  
-- ipad： 内部填充常量，是0x36 重复B次。
+- Msg: 要认证的消息 
+- opad：外部填充常量, 是 0x5C 重复B次
+- ipad: 内部填充常量, 是0x36 重复B次
 
 *加速方式*: 预先计算 $f(IV, (K^{+}\oplus ipad))$ 和 $f(IV, (K^{+}\oplus opad))$ 两个值. 其中$f(cv, block)$是散列函数的迭代压缩函数, 此二值视为新 $IV'$, 替代原哈希函数 $IV$. 该法缺点是增加了HMAC算法和哈希算法的耦合度. 该法也揭示出迭代型压缩函数的一些弱点, 见[MAC-长度延长攻击](MAC-长度延长攻击.md).
 
@@ -60,15 +60,7 @@ HMAC用于用户身份验证:
 ### `HMAC-SHA1` python实现
 
 ```python
-# define some type
-Int32 = int # 32bit int
-Word = Int32
-Int512 = int
-BitLength = int
-ByteLength = int
-
-# define hash function
-hash_funct = sha1
+hash = sha1
 digest_size = 20 # sha1
 
 block_size = 64
@@ -80,10 +72,6 @@ def _xor(x: bytes, y: bytes)->bytes:
     return bytes(x^y for x, y in zip(x, y))
 
 def hmac(k: bytes, msg: bytes)->bytes:
-    '''
-    input k: shared key
-    input msg: msg to be authenticate
-    '''
     # test length of k, then padding
     if len(k) > block_size:
         k = hash_funct(k)
@@ -91,10 +79,10 @@ def hmac(k: bytes, msg: bytes)->bytes:
         k += b'\x00'
     
     # inside hash
-    inside = hash_funct(_xor(k, ipad) + msg)
+    inside = hash(_xor(k, ipad) + msg)
     
     # outside hash
-    outside = hash_funct(_xor(k, opad) + inside)
+    outside = hash(_xor(k, opad) + inside)
 
     return outside
 ```

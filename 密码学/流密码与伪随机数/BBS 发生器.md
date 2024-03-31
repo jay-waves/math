@@ -7,11 +7,16 @@ BBS (Blum-Blum-Shub) 是**密码安全伪随机数比特发生器**, 有安全�
 2. 周期长度理论上可达到 $\frac{1}{4}\cdot p\cdot q$, 即可生成较长不重复序列, 安全性高. 
 
 算法流程如下:
-- 选取大素数 $p,\ q$, 满足 $p\equiv q\equiv 3\pmod{4}$
-- 计算 $n=p\times q$
-- 选取随机数 $seed$, 要求 $seed$ 和 $n$ 互素.
-- 按以下算法产生比特序列 $\{B_{i}\}$  
-$X_{0}=seed^{2}\pmod{n}$  
-$For\quad i=1\quad to\quad \infty:$  
-$\qquad X_{i}=X_{i-1}^{2}\pmod{n}$  
-$\qquad B_{i}=X_{i}\quad\pmod{2}$
+1. 选取大素数 $p,\ q$, 满足 $p\equiv q\equiv 3\pmod{4}$
+2. 计算 $n=p\times q$
+3. 选取随机数 $seed$, 要求 $seed$ 和 $n$ 互素.
+4. 按以下算法产生比特序列 $\{B_{i}\}$  
+
+```
+x0 = seed^2            (mod n)
+for i from 1 to \infty:
+	x_i = x_{i-1}^2    (mod n)
+	b_i = x_i          (mod 2)
+```
+
+BBS 涉及模乘操作, 速度慢.
