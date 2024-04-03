@@ -65,7 +65,8 @@ FAQ:
 至于为什么后续又引入了$x'$, 猜测是为了使随机值r更隐蔽??
 
 ### SM2 公钥加密伪代码
-```
+
+```c++
 Function Encrypt(m, klen, P):
 	t <- 0;
 	While t!= 0:

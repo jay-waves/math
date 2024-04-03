@@ -1,8 +1,6 @@
-本文件夹仅收录**密码学**相关部分, 网络空间安全 (Cyber Security) 相关只是移步 [Code/Security](obsidian://open?vault=Code&file=Security%2FREADME)
+本文件夹仅收录**密码学**相关部分, 网络空间安全 (Cyber Security) 相关请移步 [Code/Security](obsidian://open?vault=Code&file=Security%2FREADME)
 
 ***
-
-Kerckhoff原则: 系统保密性不依赖于加密体制或算法的保密, 而应依赖于对密钥的保密.
 
 ## 内容目录
 
