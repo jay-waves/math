@@ -36,7 +36,7 @@ Round{
 
 #### 1.1 字节替换
 
-见 [AES SBox](AES%20SBox.md)
+见 [AES-SBox](AES-SBox.md)
 
 #### 1.2 行移位 `ShiftRows`
 线性变换
@@ -202,7 +202,7 @@ Rijndal( State, Key ){
 
 变换 $g$ 详情如:
 1. 循环左移一字节
-2. 用 [Sbox](AES%20SBox.md) 进行字节替代
+2. 用 [Sbox](AES-SBox.md) 进行字节替代
 3. 与轮常数 `Rcon[i]` 异或.   
 其中, $Rcon[i]=(RC[i], 0x00, 0x00, 0x00)$, $RC[i]=2^{i-1}$.
 

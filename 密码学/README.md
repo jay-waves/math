@@ -6,14 +6,14 @@
 
 1. [分组密码](分组密码/分组密码.md)
 	- 古典密码
-	- [Feistel 结构](分组密码/Feistel%20结构/Feistel%20结构.md)
-	- [SP 结构](分组密码/SP%20结构/代换置换网络.md)
+	- [Feistel](分组密码/Feistel-结构/Feistel.md)
+	- [SP 结构](分组密码/SP-结构/代换置换网络.md)
 	- [链接工作模式](分组密码/链接工作模式.md)
 1. 公钥密码
 	- [ECC](公钥密码/ECC/ECC.md)
 	- [RSA](公钥密码/RSA/RSA.md)
 	- [数字签名](公钥密码/数字签名.md)
-	- [Diffie-Hellman 密钥交换](公钥密码/Diffie-Hellman%20密钥交换.md)
+	- [DiffieHellman-密钥交换](公钥密码/DiffieHellman-密钥交换.md)
 1. [消息摘要(密码学哈希函数)](消息摘要/消息摘要.md)
 	- [MAC](消息摘要/消息认证码/MAC.md)
 	- [迭代型散列函数](消息摘要/迭代型散列函数.md)
