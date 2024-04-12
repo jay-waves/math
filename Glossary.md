@@ -61,7 +61,7 @@ MIPS: Million Instructions Per Second, 用于衡量 CPU 每秒执行指令的速
 
 MAC: Message Authentication Code, 消息认证码, 用于验证消息的完整性和来源真实性, 见 [MAC](密码学/消息摘要/消息认证码/MAC.md)
 
-MD5: Message Digest Algorithm 5, 广泛使用的散列函数, 由于安全问题已被淘汰, 见 [MD5](密码学/消息摘要/MD5.md).
+MD5: Message Digest Algorithm 5, 广泛使用的散列函数, 由于安全问题已被淘汰, 见 [MD-5](密码学/消息摘要/MD-5.md).
 
 # N
 
