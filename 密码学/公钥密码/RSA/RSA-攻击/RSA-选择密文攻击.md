@@ -1,4 +1,4 @@
-**CCA, Choice CipherText Attack, 选择密文攻击**是针对 **Plain-RSA, 教科书式 RSA** 的有效攻击手段, 但经过 [OAEP 填充](../OAEP填充.md)等引入随机的填充方式后, 同一明文对应不同.
+**CCA, Choice CipherText Attack, 选择密文攻击**是针对 **Plain-RSA, 教科书式 RSA** 的有效攻击手段, 但经过 [OAEP 填充](../OAEP-填充.md)等引入随机的填充方式后, 同一明文对应不同.
 
 ### 攻击流程
 
