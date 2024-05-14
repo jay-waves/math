@@ -1,4 +1,4 @@
-#Extract 
+#摘抄 
 
 This week, we have studied a multitude of undecidable languages, most of them involving the analysis of different models of computation. After all of this, it may seem that most decision procedures that analyze the behavior of machines, in particular, Turing machines may be undecidable. Rice’s Theorem answers this in the affirmative:
 

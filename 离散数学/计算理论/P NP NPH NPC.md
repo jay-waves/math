@@ -1,4 +1,4 @@
-#Extract 
+#摘抄
 
 ![[../../attach/P NP NPH NPC_image_1_20231223224923.png|400]]
 

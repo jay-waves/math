@@ -1,5 +1,9 @@
-#Question #Extract 
-# PDA for { xy : |x| = |y|, x ≠ y} from its grammar, and intuition behind it
+---
+tag: QAA, 摘抄
+url: https://cs.stackexchange.com/questions/66807/pda-for-xy-x-y-x-%E2%89%A0-y-from-its-grammar-and-intuition-behind-it
+---
+
+## PDA for { xy : |x| = |y|, x ≠ y} from its grammar, and intuition behind it
 
 I know the grammar for the language $\{ xy : |x| = |y|, x ≠ y \}$ if $\Sigma=\{a,b\}$:  
 
@@ -13,7 +17,7 @@ $$
 
 I know this is a grammar, but I need a PDA for this language, and intuition how $\{xy: |x|=|y|,x \neq y\}$I know this is a grammar, but I need a PDA for this language, and intuition how $\{xy: |x|=|y|,x \neq y\}$I know this is a grammar, but I need a PDA for this language, and intuition how $\{xy: |x|=|y|,x \neq y\}$
 
-# Answer:
+## Answer:
 You are asking two questions: how to construct a PDA for the language, and why this language is context-free while the same language with the condition x≠y replaced by the condition x\=y, is not. I will only answer the second, since for the first question there are known algorithms.
 
 The reason that your language is context-free is that we can rewrite it as follows:

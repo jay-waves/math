@@ -20,7 +20,7 @@ x^{2}\equiv c\pmod{q}
 
 由 $p\equiv 3\pmod 4$, 知 $4\ \vert\ (p+1)$.
 
-由 $c$ 是模 $p$ 的[二次剩余](../../../代数/数论/二次剩余.md), 知 $\left( \frac{c}{p} \right)\equiv c^{\frac{p-1}{2}}\equiv 1\pmod p$.
+由 $c$ 是模 $p$ 的[二次剩余](../../数论/二次剩余.md), 知 $\left( \frac{c}{p} \right)\equiv c^{\frac{p-1}{2}}\equiv 1\pmod p$.
 
 由 $( c^{\frac{p+1}{4}} )^{2}\equiv ( m^{\frac{p+1}{2}} )^{2}\equiv (m^{2})^{\frac{p+1}{2}}\equiv c^{\frac{p-1}{2}}\cdot c\equiv c\pmod p$, 知:  
 $c^{\frac{p+1}{4}}$ 和 $p-c^{\frac{p+1}{4}}$ 是方程 $x^{2}\equiv c\pmod p$ 的两根. 对 $q$ 同理.
@@ -29,4 +29,4 @@ $c^{\frac{p+1}{4}}$ 和 $p-c^{\frac{p+1}{4}}$ 是方程 $x^{2}\equiv c\pmod p$ �
 
 $\begin{cases} x\equiv y\pmod p\\ x\equiv z\pmod q\end{cases}$, $\begin{cases} x\equiv -y\pmod p\\ x\equiv z\pmod q\end{cases}$, $\begin{cases} x\equiv -y\pmod p\\ x\equiv -z\pmod q\end{cases}$, $\begin{cases} x\equiv y\pmod p\\ x\equiv -z\pmod q\end{cases}$
 
-每组皆可用[中国剩余定理](../../../代数/数论/中国剩余定理.md)求解. 为确定有效明文, $m$ 中常加入某些协商信息, 如日期和ID.
+每组皆可用[中国剩余定理](../../数论/中国剩余定理.md)求解. 为确定有效明文, $m$ 中常加入某些协商信息, 如日期和ID.

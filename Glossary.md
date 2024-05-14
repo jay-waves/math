@@ -18,7 +18,7 @@ CCA2: Adaptive Chosen Ciphertext Attack, 攻击者基于先前解密查询的结
 
 CA: Certificate Authority, 用于颁发和管理密钥/数字证书的第三方机构
 
-Completeness: 完备性. 逻辑系统是完备的, 如果它能证明该逻辑下的**所有**真命题.
+Completeness: [完备性](离散数学/数理逻辑/可靠性与完备性.md). 逻辑系统是完备的, 如果它能证明该逻辑下的**所有**真命题.
 
 # D
 
@@ -26,7 +26,7 @@ DES: 早期对称加密标准, 现由于安全性已被 AES 取代. 见 [DES](�
 
 Digital Certificate: 数字证书, 用于验证公钥拥有者身份, 见 [密钥分发与管理](密码学/安全协议/密钥分发与管理.md)
 
-DLP: Dsicreate Logarithm Problem, 离散对数问题, 见 [欧拉定理](代数/数论/欧拉定理.md)
+DLP: Dsicreate Logarithm Problem, 离散对数问题, 见 [欧拉定理](数论/欧拉定理.md)
 
 DH: Diffie-Hellman 密钥交换, 两实体在非安全信道交换秘密的算法, 见 [Diffie-Hellman协议](密码学/公钥密码/DiffieHellman-密钥交换.md)
 
@@ -91,7 +91,7 @@ SM4: 中国标准对称密码算法, 见 [SM4](密码学/分组密码/Feistel-�
 
 SM2: 中国标准公钥密码算法, 基于 ECC, 包括: 加密算法, 数字签名, 密钥协商算法. 见 [SM2](密码学/公钥密码/ECC/SM2.md) 
 
-Soundness: 健全性, 一个逻辑系统是健全的, 当它所有推导都仅产生真实结论; 即不会错误地证明假命题为真.
+Soundness: [可靠性 (健全性)](离散数学/数理逻辑/可靠性与完备性.md), 一个逻辑系统是健全的, 当它所有推导都仅产生真实结论; 即不会错误地证明假命题为真.
 
 # T
 

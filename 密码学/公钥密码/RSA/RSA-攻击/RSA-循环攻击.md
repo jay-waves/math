@@ -12,7 +12,7 @@ c^{e^{t}}\equiv m^{e^{t+1}}\pmod{n}
 
 此时, $t$ 是满足 $e^{t}\equiv 1\pmod{\phi(n)}$ 的最小数, $t$ 就是公钥 $e$ 的模 $\phi(n)$ 阶 $o_{\phi(n)}(e)$. 由欧拉定理, $t\ \vert\ \phi(\phi(n))$, 即 $t\vert \phi(\ (p-1)\cdot (q-1)\ )$.
 
-由[欧拉函数](../../../../代数/数论/欧拉函数.md)知, $\phi(m)=m\cdot\prod^{s}_{i=1}\left( 1-\frac{1}{p_{i}} \right)$  , 此时 $m=(p-1)\cdot(q-1)$. 由于 $p, q$ 皆为素数, 所以 $p-1, q-1$ 皆有因子2. 要降低循环攻击的威胁, 就需要增大 $t$, 就需要 $\phi((p-1)\cdot(q-1))$ 更大, 就需要 $(p-1)\cdot(q-1)$ 有较大素因子. ==(不严谨的推导)==
+由[欧拉函数](../../../../数论/欧拉函数.md)知, $\phi(m)=m\cdot\prod^{s}_{i=1}\left( 1-\frac{1}{p_{i}} \right)$  , 此时 $m=(p-1)\cdot(q-1)$. 由于 $p, q$ 皆为素数, 所以 $p-1, q-1$ 皆有因子2. 要降低循环攻击的威胁, 就需要增大 $t$, 就需要 $\phi((p-1)\cdot(q-1))$ 更大, 就需要 $(p-1)\cdot(q-1)$ 有较大素因子. ==(不严谨的推导)==
 
 ### 安全素数
 
@@ -22,7 +22,7 @@ RSA定义**安全素数**为:
 
 若 $p$ 为安全素数, 则其只有两个素因子, 且 $\frac{p-1}{2}$ 较大. $\phi((p-1)\cdot(q-1))=\phi(2^{2})\cdot\phi\left( \frac{p-1}{2} \right)\cdot\phi\left( \frac{q-1}{2} \right)=2\cdot\frac{p-3}{2}\cdot \frac{q-3}{2}$.
 
-定义安全素数目的, 就是让 $p-1$ 的因子尽可能大 (少). 否则若 $p-1$ 的每个因子都较小, 存在 Pohlig-Hellman 算法可以更高效解决离散对数问题. RSA 的安全性也受离散对数问题的影响, 见[RSA安全分析](../RSA.md)
+定义安全素数目的, 就是让 $p-1$ 的因子尽可能大 (少). 否则若 $p-1$ 的每个因子都较小, 存在 Pohlig-Hellman 算法可以更高效解决离散对数问题, 存在 [Pollard's p-1 算法](https://en.wikipedia.org/wiki/Pollard%27s_p_%E2%88%92_1_algorithm). RSA 的安全性也受离散对数问题的影响, 见[RSA安全分析](../RSA.md)
 
 
 ### 强素数

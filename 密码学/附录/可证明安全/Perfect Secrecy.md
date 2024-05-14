@@ -4,7 +4,7 @@
 - adversary knows the encryption scheme
 - adversary can *eavesdrop* the ciphertext (ciphertext-only attack)
 
-Perfect Secrecy is that **the [posteriori probability](../../../分析/概率与统计/贝叶斯公式.md) that some message $m\in M$ was sent, conditioned on the ciphertext that was observed, should be no different from the a [priori probability](../../../分析/概率与统计/贝叶斯公式.md#贝叶斯定理) that $m$ would be sent.**
+Perfect Secrecy is that **the [posteriori probability](../../../概率论与随机过程/贝叶斯公式.md) that some message $m\in M$ was sent, conditioned on the ciphertext that was observed, should be no different from the a [priori probability](../../../概率论与随机过程/贝叶斯公式.md#贝叶斯定理) that $m$ would be sent.**
 
 Formally, 
 
