@@ -2,9 +2,12 @@
 
 RSA, Rivest-Shamir-Adleman 公钥体系基于大数分解的NPC困难问题, 被广泛部署使用, 构造原理为:
 
-对于大数$N=p\times q$, 其中 $p,q$ 为素数, 存在 $gcd(e,\ \phi(N))=1$, $d=e^{-1}\pmod{N}$,   
+对于大数 $N=p\times q$, 其中 $p,q$ 为素数, 存在 $gcd(e,\ \phi(N))=1$, $d=e^{-1}\pmod{N}$,   
 
 那么 $x^{e}\equiv c\ \   (mod\; N)$ 有解 $$x\equiv x\cdot 1^{h}\equiv x\cdot (x^{\phi(N)})^{h}\equiv x^{1+h\cdot \phi(N)}\equiv x^{d\cdot e}\equiv c^{d}\ (mod\; N)$$
+
+
+$\begin{array}{l}{{(c^{d})^{e}\equiv c^{d e}({\mathrm{mod~}}p q)}}\\ {{\equiv c^{1+k(p-1)(q-1)}({\mathrm{mod~}}p q)}}\\ {{\equiv c\cdot(c^{(p-1)(q-1)})^{k}({\mathrm{mod~}}p q)}}\\ {{\equiv c\left({\mathrm{mod~}}p q\right)}}\end{array}$
 
 ### 1 加解密
 
@@ -18,7 +21,7 @@ RSA, Rivest-Shamir-Adleman 公钥体系基于大数分解的NPC困难问题, 被
 
 见 [RSA-签名](RSA-签名.md)
 
-**总结: 公钥加密, 私钥解密, 私钥签名, 公钥验签**
+**公钥加密, 私钥解密, 私钥签名, 公钥验签**
 
 ### 3 算法加速
 
@@ -77,7 +80,7 @@ RSA 时间攻击[^1]比较有意思, 利用比特 `1` 处理时间比 `0` 长的
 
 ### 5 RSA 实现
 
-明文数据需要分组加密, 每组长度i, 应满足 $2^{i}<n\leq 2^{i+1}$. 
+明文数据需要分组加密, 每组长度 i, 应满足 $2^{i}<n\leq 2^{i+1}$. 
 
 RSA应填充后使用... [OAEP-填充](OAEP-填充.md)
 
