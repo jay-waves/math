@@ -1,7 +1,5 @@
 # HMAC
 
-#KeyPoints
-
 HMAC是一种基于杂凑算法的MAC实现方式. 是 Keyed-hashing for MAC 的简写. 其设计目标为: 直接调用现有散列函数, 且镶嵌的散列函数可不断更新替换; 保留散列函数原始性能, 并以简单方式处理和使用密钥; 在对镶嵌散列函数合理假设的基础上, 易于分析 HMAC 用于认证时的密码强度. 基于不同杂凑算法, 有 `HMAC-MD5`, `HMAC-SHA1`, `HMAC-SHA256`
 
 $HMAC=Hash((K^{+}\oplus opad)\ \Vert\ Hash((K^{+}\oplus ipad)\ \Vert\ Msg))$
